@@ -4,7 +4,7 @@ A tool for converting BIP39 mnemonic phrases to addresses and private keys.
 
 ## Online Version
 
-https://tealcoin-project.io/bip39/
+https://tealcoin-project.io/bip39-tealcoin/
 
 ## Standalone offline version
 
