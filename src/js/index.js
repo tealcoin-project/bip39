@@ -855,6 +855,7 @@
                     address = convertRippleAdrr(address);
                 }
                 // Segwit addresses are different
+                console.log(isSegwit);
                 if (isSegwit) {
                     if (!segwitAvailable) {
                         return;
@@ -1615,7 +1616,7 @@
         },
         {
             name: "TEAL - Tealcoin",
-            segwitAvailable: false,
+            segwitAvailable: true,
             onSelect: function() {
                 network = bitcoinjs.bitcoin.networks.tealcoin;
                 setHdCoin(240);
@@ -1623,7 +1624,7 @@
         },
         {
             name: "TEAL - Tealcoin Testnet",
-            segwitAvailable: false,
+            segwitAvailable: true,
             onSelect: function() {
                 network = bitcoinjs.bitcoin.networks.tealcoin_testnet;
                 setHdCoin(241);
