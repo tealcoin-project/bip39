@@ -6878,8 +6878,7 @@ button.close {
         <div class="container">
 
             <h1 class="text-center">Mnemonic Code Converter</h1>
-            <h5 class="text-center">Tealcoin Mnemonic Generator</h5>
-            <p style='display:none;' class="version">v0.3.5</p>
+            <h5 class="text-center">Tealcoin Mnemonic Address Generator v0.3.5</h5>
             <hr>
             <div class="row">
                 <div class="col-md-12">
@@ -7627,7 +7626,7 @@ button.close {
                     </p>
                     <h3>License</h3>
                     <p>
-                    <span>Please refer to <a href="https://github.com/iancoleman/bip39/blob/master/LICENSE" target="_blank">the software license</a> for more detail.
+                    <span>Please refer to <a href="https://github.com/tealcoin-project/bip39-tealcoin/blob/master/LICENSE" target="_blank">the software license</a> for more detail.
                     </span>
                     </p>
                     <p>The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.</p>
@@ -7657,20 +7656,19 @@ button.close {
                     <h2>Offline Usage</h2>
 
                     <p>
-                    You can use this tool without having to be online.
+                    You should use this tool without having to be online.
                     </p>
                     <p>
-                    In your browser, select file save-as, and save this page
-                    as a file.
+                    Open this raw view: <a target="_blank" href="https://raw.githubusercontent.com/tealcoin-project/bip39-tealcoin/master/bip39-standalone.html">https://raw.githubusercontent.com/tealcoin-project/bip39-tealcoin/master/bip39-standalone.html</a>,
+                    in your browser, select file save page as, and save this page as a file.
                     </p>
                     <p>
-                    Double-click that file to open it in a browser
-                    on any offline computer.
+                    Double-click that file to open it in a browser on any offline computer.
                     </p>
                     <p>
-                    <span>Alternatively, download the file from the repository</span>
+                    <span>Alternatively, extract the file from our repository</span>
                     -
-                    <a href="https://github.com/iancoleman/bip39">https://github.com/iancoleman/bip39</a>
+                    <a href="http://github.com/tealcoin-project/bip39-tealcoin/zipball/master/">http://github.com/tealcoin-project/bip39-tealcoin/zipball/master/</a>
                     </p>
 
                 </div>
@@ -7686,8 +7684,8 @@ button.close {
                     <p>
                         <span>Get the source code from the repository</span>
                         -
-                        <a href="https://github.com/iancoleman/bip39" target="_blank">
-                            https://github.com/iancoleman/bip39
+                        <a href="https://github.com/tealcoin-project/bip39-tealcoin" target="_blank">
+                            https://github.com/tealcoin-project/bip39-tealcoin
                         </a>
                     </p>
 
@@ -71167,6 +71165,59 @@ bitcoinjs.bitcoin.networks.testnet.p2wpkh = {
     wif: 0xef
 };
 
+bitcoinjs.bitcoin.networks.litecoin.p2wpkh = {
+    baseNetwork: "litecoin",
+    messagePrefix: '\x19Litecoin Signed Message:\n',
+    bech32: 'bc',
+    bip32: {
+        public: 0x01b26ef6,
+        private: 0x01b26792
+    },
+    pubKeyHash: 0x30,
+    scriptHash: 0x32,
+    wif: 0xb0
+};
+
+bitcoinjs.bitcoin.networks.fujicoin.p2wpkh = {
+    baseNetwork: "fujicoin",
+    messagePrefix: '\x19FujiCoin Signed Message:\n',
+    bech32: 'fc',
+    bip32: {
+        public: 0x04b24746,
+        private: 0x04b2430c
+    },
+    pubKeyHash: 0x24,
+    scriptHash: 0x10,
+    wif: 0xa4
+};
+
+bitcoinjs.bitcoin.networks.tealcoin.p2wpkh = {
+  baseNetwork: "tealcoin",
+  messagePrefix: '\x19Tealcoin Signed Message:\n',
+  bech32: 'tc',
+  bip32: {
+    public: 0x9aee845d,
+    private: 0x98e6bbea,
+  },
+  pubKeyHash: 0x41,
+  scriptHash: 0x25,
+  wif: 0x46,
+};
+
+bitcoinjs.bitcoin.networks.tealcoin_testnet.p2wpkh = {
+  baseNetwork: "tealcoin_testnet",
+  messagePrefix: '\x19Tealcoin Signed Message:\n',
+  bech32: 'tt',
+  bip32: {
+    public: 0x9182d468,
+    private: 0x8f7b0bf5,
+  },
+  pubKeyHash: 0x7f,
+  scriptHash: 0x60,
+  wif: 0xe6,
+};
+
+
 // p2wpkh in p2sh
 
 bitcoinjs.bitcoin.networks.bitcoin.p2wpkhInP2sh = {
@@ -71195,9 +71246,12 @@ bitcoinjs.bitcoin.networks.testnet.p2wpkhInP2sh = {
     wif: 0xef
 };
 
+
+
 bitcoinjs.bitcoin.networks.litecoin.p2wpkhInP2sh = {
     baseNetwork: "litecoin",
     messagePrefix: '\x19Litecoin Signed Message:\n',
+    bech32: 'bc',
     bip32: {
         public: 0x01b26ef6,
         private: 0x01b26792
@@ -71207,18 +71261,6 @@ bitcoinjs.bitcoin.networks.litecoin.p2wpkhInP2sh = {
     wif: 0xb0
 };
 
-bitcoinjs.bitcoin.networks.fujicoin.p2wpkh = {
-    baseNetwork: "fujicoin",
-    messagePrefix: '\x19FujiCoin Signed Message:\n',
-    bech32: 'fc',
-    bip32: {
-        public: 0x04b24746,
-        private: 0x04b2430c
-    },
-    pubKeyHash: 0x24,
-    scriptHash: 0x10,
-    wif: 0xa4
-};
 
 bitcoinjs.bitcoin.networks.fujicoin.p2wpkhInP2sh = {
     baseNetwork: "fujicoin",
@@ -71232,6 +71274,33 @@ bitcoinjs.bitcoin.networks.fujicoin.p2wpkhInP2sh = {
     scriptHash: 0x10,
     wif: 0xa4
 };
+
+bitcoinjs.bitcoin.networks.tealcoin.p2wpkhInP2sh = {
+  baseNetwork: "tealcoin",
+  messagePrefix: '\x19Tealcoin Signed Message:\n',
+  bech32: 'tc',
+  bip32: {
+    public: 0x9182b952,
+    private: 0x8f7af0df,
+  },
+  pubKeyHash: 0x41,
+  scriptHash: 0x25,
+  wif: 0x46,
+};
+
+bitcoinjs.bitcoin.networks.tealcoin_testnet.p2wpkhInP2sh = {
+  baseNetwork: "tealcoin_testnet",
+  messagePrefix: '\x19Tealcoin Signed Message:\n',
+  bech32: 'tt',
+  bip32: {
+    public: 0x9aee9f74,
+    private: 0x98e6d701,
+  },
+  pubKeyHash: 0x7f,
+  scriptHash: 0x60,
+  wif: 0xe6,
+};
+
 
 })();
 </script>
@@ -97647,6 +97716,7 @@ window.Entropy = new (function() {
                     address = convertRippleAdrr(address);
                 }
                 // Segwit addresses are different
+                console.log(isSegwit);
                 if (isSegwit) {
                     if (!segwitAvailable) {
                         return;
@@ -98407,7 +98477,7 @@ window.Entropy = new (function() {
         },
         {
             name: "TEAL - Tealcoin",
-            segwitAvailable: false,
+            segwitAvailable: true,
             onSelect: function() {
                 network = bitcoinjs.bitcoin.networks.tealcoin;
                 setHdCoin(240);
@@ -98415,7 +98485,7 @@ window.Entropy = new (function() {
         },
         {
             name: "TEAL - Tealcoin Testnet",
-            segwitAvailable: false,
+            segwitAvailable: true,
             onSelect: function() {
                 network = bitcoinjs.bitcoin.networks.tealcoin_testnet;
                 setHdCoin(241);
