@@ -1,5 +1,6 @@
 body {
     padding-bottom: 32px;
+    font-family: Ubuntu, monospace;
 }
 .form-control[readonly] {
     cursor: text;
@@ -12,16 +13,17 @@ body {
     z-index: 4;
 }
 .feedback {
-    display: table;
-    padding: 0.5em 1em;
-    background-color: orange;
+	display: table;
+    box-shadow: 0px 2px 85px #000;
+    padding: 0.3em 1.4em;
+    background-color: #e1f2de;
     margin: 0 auto;
     font-size: 2em;
     color: #444;
-    border: 2px solid #555;
+    border: 1px solid #ccc;
     border-top: 0;
-    border-bottom-left-radius: 20px 20px;
-    border-bottom-right-radius: 20px 20px;
+    border-bottom-left-radius: 10px 10px;
+    border-bottom-right-radius: 10px 10px;
 }
 .no-border {
     border: 0;

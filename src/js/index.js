@@ -6,7 +6,8 @@
     var seed = null;
     var bip32RootKey = null;
     var bip32ExtendedKey = null;
-    var network = bitcoinjs.bitcoin.networks.bitcoin;
+    var network = bitcoinjs.bitcoin.networks.tealcoin;
+    var network_coin = 240;
     var addressRowTemplate = $("#address-row-template");
 
     var showIndex = true;
@@ -382,6 +383,7 @@
             return;
         }
         bip32ExtendedKey = calcBip32ExtendedKey(derivationPath);
+        console.log(bip32ExtendedKey);
         if (bip44TabSelected()) {
             displayBip44Info();
         }
@@ -565,7 +567,7 @@
     function getDerivationPath() {
         if (bip44TabSelected()) {
             var purpose = parseIntNoNaN(DOM.bip44purpose.val(), 44);
-            var coin = parseIntNoNaN(DOM.bip44coin.val(), 0);
+            var coin = parseIntNoNaN(DOM.bip44coin.val(), network_coin);
             var account = parseIntNoNaN(DOM.bip44account.val(), 0);
             var change = parseIntNoNaN(DOM.bip44change.val(), 0);
             var path = "m/";
@@ -580,7 +582,7 @@
         }
         else if (bip49TabSelected()) {
             var purpose = parseIntNoNaN(DOM.bip49purpose.val(), 49);
-            var coin = parseIntNoNaN(DOM.bip49coin.val(), 0);
+            var coin = parseIntNoNaN(DOM.bip49coin.val(), network_coin);
             var account = parseIntNoNaN(DOM.bip49account.val(), 0);
             var change = parseIntNoNaN(DOM.bip49change.val(), 0);
             var path = "m/";
@@ -595,7 +597,7 @@
         }
         else if (bip84TabSelected()) {
             var purpose = parseIntNoNaN(DOM.bip84purpose.val(), 84);
-            var coin = parseIntNoNaN(DOM.bip84coin.val(), 0);
+            var coin = parseIntNoNaN(DOM.bip84coin.val(), network_coin);
             var account = parseIntNoNaN(DOM.bip84account.val(), 0);
             var change = parseIntNoNaN(DOM.bip84change.val(), 0);
             var path = "m/";
@@ -675,7 +677,7 @@
     function displayBip44Info() {
         // Get the derivation path for the account
         var purpose = parseIntNoNaN(DOM.bip44purpose.val(), 44);
-        var coin = parseIntNoNaN(DOM.bip44coin.val(), 0);
+        var coin = parseIntNoNaN(DOM.bip44coin.val(), network_coin);
         var account = parseIntNoNaN(DOM.bip44account.val(), 0);
         var path = "m/";
         path += purpose + "'/";
@@ -693,7 +695,7 @@
     function displayBip49Info() {
         // Get the derivation path for the account
         var purpose = parseIntNoNaN(DOM.bip49purpose.val(), 49);
-        var coin = parseIntNoNaN(DOM.bip49coin.val(), 0);
+        var coin = parseIntNoNaN(DOM.bip49coin.val(), network_coin);
         var account = parseIntNoNaN(DOM.bip49account.val(), 0);
         var path = "m/";
         path += purpose + "'/";
@@ -711,7 +713,7 @@
     function displayBip84Info() {
         // Get the derivation path for the account
         var purpose = parseIntNoNaN(DOM.bip84purpose.val(), 84);
-        var coin = parseIntNoNaN(DOM.bip84coin.val(), 0);
+        var coin = parseIntNoNaN(DOM.bip84coin.val(), network_coin);
         var account = parseIntNoNaN(DOM.bip84account.val(), 0);
         var path = "m/";
         path += purpose + "'/";
@@ -991,7 +993,7 @@
 
     function showPending() {
         DOM.feedback
-            .text("Calculating...")
+            .text("... Working ...")
             .show();
     }
 
@@ -1026,7 +1028,7 @@
             var option = $("<option>");
             option.attr("value", i);
             option.text(network.name);
-            if (network.name == "BTC - Bitcoin") {
+            if (network.name == "TEAL - Tealcoin") {
                 option.prop("selected", true);
             }
             DOM.phraseNetwork.append(option);
@@ -1536,7 +1538,115 @@
     function addSpacesEveryElevenBits(binaryStr) {
         return binaryStr.match(/.{1,11}/g).join(" ");
     }
-
+	var networks = [
+        {
+            name: "BTC - Bitcoin",
+            segwitAvailable: true,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.bitcoin;
+                setHdCoin(0);
+            },
+        },
+        {
+            name: "BTC - Bitcoin Testnet",
+            segwitAvailable: true,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.testnet;
+                setHdCoin(1);
+            },
+        },
+        {
+            name: "BCH - Bitcoin Cash",
+            segwitAvailable: false,
+            onSelect: function() {
+                DOM.useBitpayAddressesContainer.removeClass("hidden");
+                setBitcoinCashNetworkValues();
+                setHdCoin(145);
+            },
+        },
+        {
+            name: "DASH - Dash",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.dash;
+                setHdCoin(5);
+            },
+        },
+        {
+            name: "DASH - Dash Testnet",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.dashtn;
+                setHdCoin(1);
+            },
+        },
+        {
+            name: "DOGE - Dogecoin",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.dogecoin;
+                setHdCoin(3);
+            },
+        },
+        {
+            name: "ETH - Ethereum",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.bitcoin;
+                setHdCoin(60);
+            },
+        },
+        {
+            name: "LTC - Litecoin",
+            segwitAvailable: true,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.litecoin;
+                setHdCoin(2);
+                DOM.litecoinLtubContainer.removeClass("hidden");
+            },
+        },
+        {
+            name: "RDD - Reddcoin",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.reddcoin;
+                setHdCoin(4);
+            },
+        },
+        {
+            name: "TEAL - Tealcoin",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.tealcoin;
+                setHdCoin(240);
+            },
+        },
+        {
+            name: "TEAL - Tealcoin Testnet",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.tealcoin_testnet;
+                setHdCoin(241);
+            },
+        },        {
+            name: "XRP - Ripple",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.bitcoin;
+                setHdCoin(144);
+            },
+        },
+        {
+            name: "XVG - Verge",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.verge;
+                setHdCoin(77);
+            },
+        }
+	]
+	
+	/*
     var networks = [
         {
             name: "AC - Asiacoin",
@@ -2419,8 +2529,8 @@
                 network = bitcoinjs.bitcoin.networks.zcoin;
                 setHdCoin(136);
             },
-        },
-    ]
+        }
+    ]*/
 
     var clients = [
         {

@@ -10,7 +10,6 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
-  font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
@@ -6763,6 +6762,7 @@ button.close {
 </style>
         <style>body {
     padding-bottom: 32px;
+    font-family: Ubuntu, monospace;
 }
 .form-control[readonly] {
     cursor: text;
@@ -6775,16 +6775,17 @@ button.close {
     z-index: 4;
 }
 .feedback {
-    display: table;
-    padding: 0.5em 1em;
-    background-color: orange;
+	display: table;
+    box-shadow: 0px 2px 85px #000;
+    padding: 0.3em 1.4em;
+    background-color: #e1f2de;
     margin: 0 auto;
     font-size: 2em;
     color: #444;
-    border: 2px solid #555;
+    border: 1px solid #ccc;
     border-top: 0;
-    border-bottom-left-radius: 20px 20px;
-    border-bottom-right-radius: 20px 20px;
+    border-bottom-left-radius: 10px 10px;
+    border-bottom-right-radius: 10px 10px;
 }
 .no-border {
     border: 0;
@@ -6877,7 +6878,8 @@ button.close {
         <div class="container">
 
             <h1 class="text-center">Mnemonic Code Converter</h1>
-            <p class="version">v0.3.5</p>
+            <h5 class="text-center">Tealcoin Mnemonic Generator</h5>
+            <p style='display:none;' class="version">v0.3.5</p>
             <hr>
             <div class="row">
                 <div class="col-md-12">
@@ -7110,7 +7112,7 @@ button.close {
                                         <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#registered-coin-types" target="_blank">Coin</a>
                                     </label>
                                     <div class="col-sm-10">
-                                        <input id="coin" type="text" class="coin form-control" value="0" readonly>
+                                        <input id="coin" type="text" class="coin form-control" value="240" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -7162,7 +7164,7 @@ button.close {
                                 <div class="form-group">
                                     <label for="bip44-path" class="col-sm-2 control-label">BIP32 Derivation Path</label>
                                     <div class="col-sm-10">
-                                        <input id="bip44-path" type="text" class="path form-control" value="m/44'/0'/0'/0" readonly="readonly">
+                                        <input id="bip44-path" type="text" class="path form-control" value="m/44'/240'/0'/0" readonly="readonly">
                                     </div>
                                 </div>
                             </form>
@@ -7741,7 +7743,7 @@ button.close {
         </div>
 
         <div class="feedback-container">
-            <div class="feedback">Loading...</div>
+            <div class="feedback">... Loading ...</div>
         </div>
 
         <script type="text/template" id="address-row-template">
@@ -43194,6 +43196,28 @@ bitcoinjs.bitcoin.networks.zcoin = {
   pubKeyHash: 0x52,
   scriptHash: 0x07,
   wif: 0xd2,
+};
+
+bitcoinjs.bitcoin.networks.tealcoin = {
+  messagePrefix: '\x19Tealcoin Signed Message:\n',
+  bip32: {
+    public: 0x0431d3a6,
+    private: 0x022a0b33,
+  },
+  pubKeyHash: 0x41,
+  scriptHash: 0x25,
+  wif: 0x46,
+};
+
+bitcoinjs.bitcoin.networks.tealcoin_testnet = {
+  messagePrefix: '\x19Tealcoin Signed Message:\n',
+  bip32: {
+    public: 0x0431eebd,
+    private: 0x022a2649,
+  },
+  pubKeyHash: 0x7f,
+  scriptHash: 0x60,
+  wif: 0xe6,
 };
 </script>
         <script>(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.bitcoinjsBip38 = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -96774,7 +96798,8 @@ window.Entropy = new (function() {
     var seed = null;
     var bip32RootKey = null;
     var bip32ExtendedKey = null;
-    var network = bitcoinjs.bitcoin.networks.bitcoin;
+    var network = bitcoinjs.bitcoin.networks.tealcoin;
+    var network_coin = 240;
     var addressRowTemplate = $("#address-row-template");
 
     var showIndex = true;
@@ -97150,6 +97175,7 @@ window.Entropy = new (function() {
             return;
         }
         bip32ExtendedKey = calcBip32ExtendedKey(derivationPath);
+        console.log(bip32ExtendedKey);
         if (bip44TabSelected()) {
             displayBip44Info();
         }
@@ -97333,7 +97359,7 @@ window.Entropy = new (function() {
     function getDerivationPath() {
         if (bip44TabSelected()) {
             var purpose = parseIntNoNaN(DOM.bip44purpose.val(), 44);
-            var coin = parseIntNoNaN(DOM.bip44coin.val(), 0);
+            var coin = parseIntNoNaN(DOM.bip44coin.val(), network_coin);
             var account = parseIntNoNaN(DOM.bip44account.val(), 0);
             var change = parseIntNoNaN(DOM.bip44change.val(), 0);
             var path = "m/";
@@ -97348,7 +97374,7 @@ window.Entropy = new (function() {
         }
         else if (bip49TabSelected()) {
             var purpose = parseIntNoNaN(DOM.bip49purpose.val(), 49);
-            var coin = parseIntNoNaN(DOM.bip49coin.val(), 0);
+            var coin = parseIntNoNaN(DOM.bip49coin.val(), network_coin);
             var account = parseIntNoNaN(DOM.bip49account.val(), 0);
             var change = parseIntNoNaN(DOM.bip49change.val(), 0);
             var path = "m/";
@@ -97363,7 +97389,7 @@ window.Entropy = new (function() {
         }
         else if (bip84TabSelected()) {
             var purpose = parseIntNoNaN(DOM.bip84purpose.val(), 84);
-            var coin = parseIntNoNaN(DOM.bip84coin.val(), 0);
+            var coin = parseIntNoNaN(DOM.bip84coin.val(), network_coin);
             var account = parseIntNoNaN(DOM.bip84account.val(), 0);
             var change = parseIntNoNaN(DOM.bip84change.val(), 0);
             var path = "m/";
@@ -97443,7 +97469,7 @@ window.Entropy = new (function() {
     function displayBip44Info() {
         // Get the derivation path for the account
         var purpose = parseIntNoNaN(DOM.bip44purpose.val(), 44);
-        var coin = parseIntNoNaN(DOM.bip44coin.val(), 0);
+        var coin = parseIntNoNaN(DOM.bip44coin.val(), network_coin);
         var account = parseIntNoNaN(DOM.bip44account.val(), 0);
         var path = "m/";
         path += purpose + "'/";
@@ -97461,7 +97487,7 @@ window.Entropy = new (function() {
     function displayBip49Info() {
         // Get the derivation path for the account
         var purpose = parseIntNoNaN(DOM.bip49purpose.val(), 49);
-        var coin = parseIntNoNaN(DOM.bip49coin.val(), 0);
+        var coin = parseIntNoNaN(DOM.bip49coin.val(), network_coin);
         var account = parseIntNoNaN(DOM.bip49account.val(), 0);
         var path = "m/";
         path += purpose + "'/";
@@ -97479,7 +97505,7 @@ window.Entropy = new (function() {
     function displayBip84Info() {
         // Get the derivation path for the account
         var purpose = parseIntNoNaN(DOM.bip84purpose.val(), 84);
-        var coin = parseIntNoNaN(DOM.bip84coin.val(), 0);
+        var coin = parseIntNoNaN(DOM.bip84coin.val(), network_coin);
         var account = parseIntNoNaN(DOM.bip84account.val(), 0);
         var path = "m/";
         path += purpose + "'/";
@@ -97759,7 +97785,7 @@ window.Entropy = new (function() {
 
     function showPending() {
         DOM.feedback
-            .text("Calculating...")
+            .text("... Working ...")
             .show();
     }
 
@@ -97794,7 +97820,7 @@ window.Entropy = new (function() {
             var option = $("<option>");
             option.attr("value", i);
             option.text(network.name);
-            if (network.name == "BTC - Bitcoin") {
+            if (network.name == "TEAL - Tealcoin") {
                 option.prop("selected", true);
             }
             DOM.phraseNetwork.append(option);
@@ -98304,7 +98330,115 @@ window.Entropy = new (function() {
     function addSpacesEveryElevenBits(binaryStr) {
         return binaryStr.match(/.{1,11}/g).join(" ");
     }
-
+	var networks = [
+        {
+            name: "BTC - Bitcoin",
+            segwitAvailable: true,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.bitcoin;
+                setHdCoin(0);
+            },
+        },
+        {
+            name: "BTC - Bitcoin Testnet",
+            segwitAvailable: true,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.testnet;
+                setHdCoin(1);
+            },
+        },
+        {
+            name: "BCH - Bitcoin Cash",
+            segwitAvailable: false,
+            onSelect: function() {
+                DOM.useBitpayAddressesContainer.removeClass("hidden");
+                setBitcoinCashNetworkValues();
+                setHdCoin(145);
+            },
+        },
+        {
+            name: "DASH - Dash",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.dash;
+                setHdCoin(5);
+            },
+        },
+        {
+            name: "DASH - Dash Testnet",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.dashtn;
+                setHdCoin(1);
+            },
+        },
+        {
+            name: "DOGE - Dogecoin",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.dogecoin;
+                setHdCoin(3);
+            },
+        },
+        {
+            name: "ETH - Ethereum",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.bitcoin;
+                setHdCoin(60);
+            },
+        },
+        {
+            name: "LTC - Litecoin",
+            segwitAvailable: true,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.litecoin;
+                setHdCoin(2);
+                DOM.litecoinLtubContainer.removeClass("hidden");
+            },
+        },
+        {
+            name: "RDD - Reddcoin",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.reddcoin;
+                setHdCoin(4);
+            },
+        },
+        {
+            name: "TEAL - Tealcoin",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.tealcoin;
+                setHdCoin(240);
+            },
+        },
+        {
+            name: "TEAL - Tealcoin Testnet",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.tealcoin_testnet;
+                setHdCoin(241);
+            },
+        },        {
+            name: "XRP - Ripple",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.bitcoin;
+                setHdCoin(144);
+            },
+        },
+        {
+            name: "XVG - Verge",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.verge;
+                setHdCoin(77);
+            },
+        }
+	]
+	
+	/*
     var networks = [
         {
             name: "AC - Asiacoin",
@@ -99187,8 +99321,8 @@ window.Entropy = new (function() {
                 network = bitcoinjs.bitcoin.networks.zcoin;
                 setHdCoin(136);
             },
-        },
-    ]
+        }
+    ]*/
 
     var clients = [
         {

@@ -1188,3 +1188,25 @@ bitcoinjs.bitcoin.networks.zcoin = {
   scriptHash: 0x07,
   wif: 0xd2,
 };
+
+bitcoinjs.bitcoin.networks.tealcoin = {
+  messagePrefix: '\x19Tealcoin Signed Message:\n',
+  bip32: {
+    public: 0x0431d3a6,
+    private: 0x022a0b33,
+  },
+  pubKeyHash: 0x41,
+  scriptHash: 0x25,
+  wif: 0x46,
+};
+
+bitcoinjs.bitcoin.networks.tealcoin_testnet = {
+  messagePrefix: '\x19Tealcoin Signed Message:\n',
+  bip32: {
+    public: 0x0431eebd,
+    private: 0x022a2649,
+  },
+  pubKeyHash: 0x7f,
+  scriptHash: 0x60,
+  wif: 0xe6,
+};

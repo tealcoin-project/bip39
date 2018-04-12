@@ -15,7 +15,8 @@
         <div class="container">
 
             <h1 class="text-center">Mnemonic Code Converter</h1>
-            <p class="version">v0.3.5</p>
+            <h5 class="text-center">Tealcoin Mnemonic Generator</h5>
+            <p style='display:none;' class="version">v0.3.5</p>
             <hr>
             <div class="row">
                 <div class="col-md-12">
@@ -248,7 +249,7 @@
                                         <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#registered-coin-types" target="_blank">Coin</a>
                                     </label>
                                     <div class="col-sm-10">
-                                        <input id="coin" type="text" class="coin form-control" value="0" readonly>
+                                        <input id="coin" type="text" class="coin form-control" value="240" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -300,7 +301,7 @@
                                 <div class="form-group">
                                     <label for="bip44-path" class="col-sm-2 control-label">BIP32 Derivation Path</label>
                                     <div class="col-sm-10">
-                                        <input id="bip44-path" type="text" class="path form-control" value="m/44'/0'/0'/0" readonly="readonly">
+                                        <input id="bip44-path" type="text" class="path form-control" value="m/44'/240'/0'/0" readonly="readonly">
                                     </div>
                                 </div>
                             </form>
@@ -879,7 +880,7 @@
         </div>
 
         <div class="feedback-container">
-            <div class="feedback">Loading...</div>
+            <div class="feedback">... Loading ...</div>
         </div>
 
         <script type="text/template" id="address-row-template">
