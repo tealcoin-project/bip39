@@ -12,7 +12,13 @@ Download `bip39-standalone.html`
 
 Open the file in a browser by double clicking it.
 
-This can be compiled from source using the command `python compile.py`
+This can be compiled from source using the command:
+
+```
+pip install jsmin
+pip install cssmin
+python compile.py
+```
 
 ## Usage
 

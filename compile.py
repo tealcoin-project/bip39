@@ -1,11 +1,11 @@
 import os
 import re
+from jsmin import jsmin
+from cssmin import cssmin
 import datetime
 from io import open
 
 # This script generates the bip39-standalone.html file.
-
-# It removes script and style tags and replaces with the file content.
 
 f = open('src/index.html', "r", encoding="utf-8")
 page = f.read()
@@ -20,8 +20,9 @@ scripts = scriptsFinder.findall(page)
 for script in scripts:
     filename = os.path.join("src", script)
     s = open(filename, "r", encoding="utf-8")
-    scriptContent = "<script>%s</script>" % s.read()
+    m = jsmin(s.read())
     s.close()
+    scriptContent = "<script>%s</script>" % m
     scriptTag = """<script src="%s"></script>""" % script
     page = page.replace(scriptTag, scriptContent)
 
@@ -34,8 +35,9 @@ styles = stylesFinder.findall(page)
 for style in styles:
     filename = os.path.join("src", style)
     s = open(filename, "r", encoding="utf-8")
-    styleContent = "<style>%s</style>" % s.read()
+    m = cssmin(s.read())
     s.close()
+    styleContent = "<style>%s</style>" % m
     styleTag = """<link rel="stylesheet" href="%s">""" % style
     page = page.replace(styleTag, styleContent)
 
